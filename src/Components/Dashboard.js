@@ -1,61 +1,80 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 
 
 function Dashboard(props) {
 
-    let initialSubmit;
+  const [task, setTask] = useState('');
+  const [description, setDescription] = useState('');
+  const [tasksList, setTasksList] = useState([]);
 
-    // if (localStorage.getItem("Task") === null) {
-    //     initialSubmit = []
-    // } else {
-    //     initialSubmit = JSON.parse(localStorage.getItem("Task"))
-    // }
-
-    
-    const [submitTask, setSubmitTask] = useState(initialSubmit);
-    useEffect(() => {
-        localStorage.setItem("Task", JSON.stringify(submitTask))
-    }, [submitTask])
-    
-    const initialTask = {
-        task: "",
-        desc: ""
+  useEffect(() => {
+    const storedTasks = localStorage.getItem('tasks');
+    if (storedTasks) {
+      setTasksList(JSON.parse(storedTasks));
     }
-    const [tasks, setTasks] = useState(initialTask);
+  }, []);
 
-    const taskInputChange = (e) => {
-        const { name, value } = e.target;
-        setTasks({ ...tasks, [name]: value });
-        console.log(tasks)
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasksList));
+  }, [tasksList]);
+
+  const handleAddTask = () => {
+    if (task && description) {
+      setTasksList([...tasksList, { task, description }]);
+      setTask('');
+      setDescription('');
     }
+  };
 
-    const taskInputSubmit = () => {
-        setSubmitTask({ ...submitTask, tasks})
+  const handleDeleteTask = (index) => {
+    const updatedTasks = [...tasksList];
+    updatedTasks.splice(index, 1);
+    setTasksList(updatedTasks);
+  };
+
+  const handleUpdateTask = (index, newTask, newDescription) => {
+    if (newTask && newDescription) {
+      const updatedTasks = [...tasksList];
+      updatedTasks[index] = { task: newTask, description: newDescription };
+      setTasksList(updatedTasks);
     }
+  };
 
-    console.log(submitTask)
-
-    // console.log(props)
-
-    const backFunction = useNavigate();
-
-    const handleback = () => {
-        backFunction("/");
-    }
 
     return (
         <>
-            <div className='container'>
-                <h1 className='text-primary text-center'>Dashboard{props.role}</h1>
-                <label htmlFor='task mt-3'>Tasks</label>
-                <input type='text' name="task" value={tasks.task} onChange={taskInputChange} placeholder='Enter tasks'></input>
-                <input type='text' name="desc" value={tasks.desc} onChange={taskInputChange} placeholder='Description'></input>
-                <button onClick={taskInputSubmit} >Add Task</button>
-                <br />
-                <button className='mt-5' onClick={handleback} >Back to Home</button>
-            </div>
+           <div>
+      <h1>Task Dashboard</h1>
+      <div>
+        <input
+          type="text"
+          placeholder="Enter Task"
+          value={task}
+          onChange={(e) => setTask(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Enter Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+        <button onClick={handleAddTask}>ADD Task</button>
+      </div>
+      <div>
+        <ul>
+          {tasksList.map((taskItem, index) => (
+            <li key={index}>
+              <span>{taskItem.task}</span>
+              <span>{taskItem.description}</span>
+              <button onClick={() => handleUpdateTask(index, prompt('Update Task', taskItem.task), prompt('Update Description', taskItem.description))}>Update</button>
+              <button onClick={() => handleDeleteTask(index)}>Delete</button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
         </>
     )
 }
