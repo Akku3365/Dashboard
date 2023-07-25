@@ -3,7 +3,7 @@ import React, { useContext, useState, } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import "bootstrap/dist/css/bootstrap.css";
-import { useNavigate } from "react-router-dom"
+import { json, useNavigate } from "react-router-dom"
 
 const LoginSchema = Yup.object().shape({
 
@@ -39,7 +39,17 @@ const Login = (props) => {
         let dd = DB.filter((item) => item.email === values.email);
         console.log(dd);
         if (dd[0] && dd[0].email === values.email && dd[0].password === values.password) {
-            navigationFunck("/dash")
+            let user_d = dd[0]
+            if(dd[0].radio === true) {
+
+                navigationFunck("/dash")
+                localStorage.setItem('user_d', JSON.stringify(user_d))
+                setRole("Teacher")
+            } else {
+                navigationFunck("/dash")
+                localStorage.setItem('user_d', JSON.stringify(user_d))
+               setRole("Student")
+            }
             console.log("YESS");
         } else {
             setError(!error);

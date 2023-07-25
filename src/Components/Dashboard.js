@@ -6,6 +6,11 @@ import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 
 function Dashboard(props) {
+
+    
+
+
+    console.log(props.role)
     const initialInput = {
         t: "",
         de: "",
