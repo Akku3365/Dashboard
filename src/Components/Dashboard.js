@@ -105,14 +105,14 @@ function Dashboard(props) {
                         ))}
                     </ol>
                 </div>
-            {editTasks.id !== undefined && (
-                <div>
-                    <h3>Edit Your Task</h3>
-                    <input type="text" name="t" value={editdTask.t} onChange={handleEditChange} placeholder="Edit your task"></input>
-                    <input type="text" name="de" value={editdTask.de} onChange={handleEditChange} placeholder="Edit your description"></input>
-                    <button onClick={handleSaveEdit}>Update</button>
-                </div>
-            )}
+                {editTasks.id !== undefined && (
+                    <div>
+                        <h3>Edit Your Task</h3>
+                        <input type="text" name="t" value={editdTask.t} onChange={handleEditChange} placeholder="Edit your task"></input>
+                        <input type="text" name="de" value={editdTask.de} onChange={handleEditChange} placeholder="Edit your description"></input>
+                        <button onClick={handleSaveEdit}>Update</button>
+                    </div>
+                )}
             </div>
         </>
     );
