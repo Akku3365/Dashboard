@@ -62,31 +62,31 @@ const Login = (props) => {
                                     <div className="row mb-5">
                                         <div className="col-lg-12 text-center">
                                             <h1 className="mt-5">Login Form</h1>
-                                            <h3>{error ? <h3 className="text-danger">Invalid username or Password</h3> : ""}</h3>
+                                            <h3>{error ? <p className="text-danger">Invalid username or Password<span className="text-success" >Try sign Up</span></p> : ""}</h3>
                                         </div>
                                     </div>
                                     <Form>
                                         <div className="form-group">
-                                            <label htmlFor="email">Email</label>
+                                            <label className="fw-bold" htmlFor="email">Email</label>
                                             <Field type="email" name="email" placeholder="Enter email" autoComplete="off" className={`mt-2 form-control ${props.touched.email && props.errors.email ? "is-invalid" : ""}`} />
                                             <ErrorMessage component="div" name="email" className="invalid-feedback" />
                                         </div>
 
                                         <div className="form-group">
-                                            <label htmlFor="password" className="mt-3">
+                                            <label  htmlFor="password" className="mt-3 fw-bold">
                                                 Password
                                             </label>
                                             <Field type="password" name="password" placeholder="Enter password" className={`mt-2 form-control ${props.touched.password && props.errors.password ? "is-invalid" : ""}`} />
                                             <ErrorMessage component="div" name="password" className="invalid-feedback" />
                                         </div>
 
-                                        <button type="submit" className="btn btn-primary btn-block mt-4">
+                                        <button type="submit" className="btn btn-success btn-block mt-4">
                                             Submit
                                         </button>
                                     </Form>
 
-                                    <p>
-                                        Don't have an account <button onClick={navigateSignup} >Sign up</button>
+                                    <p className="fw-bold" >
+                                        Don't have an account <button className="btn btn-primary" onClick={navigateSignup} >Sign up</button>
                                     </p>
                                 </div>
                             )}

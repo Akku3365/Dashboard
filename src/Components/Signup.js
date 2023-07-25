@@ -38,17 +38,18 @@ const Signup = (props) => {
     }
 
     const [formData, setFormData] = useState(initialDB);
-    useEffect(() => {
-        localStorage.setItem("formDB", JSON.stringify(formData));
-    }, [formData]);
 
     const handleSignupSubmit = (val) => {
-        setFormData([...formData, val])
-        formData.filter((v) => {
-            v.email !== val.email ? setFormData([...formData, val]) : setOldUser(!oldUser)
-        })
-        console.log("Signup clicked");
-        console.log(initialDB[0].email);
+        let exist = [...formData].find((v) => v.email === val.email)
+        console.log(exist)
+        if (exist) {
+            setOldUser(!oldUser)
+        } else {
+            let arr = [...formData, val]
+            setFormData(arr)
+            localStorage.setItem("formDB", JSON.stringify(arr));
+            navigFunk("/")
+        }
     };
     console.log(formData);
 
@@ -61,32 +62,32 @@ const Signup = (props) => {
                             <div className="row mb-5">
                                 <div className="col-lg-12 text-center">
                                     <h1 className="mt-5">Signup Form</h1>
-                                    {oldUser ? <h2>User Already Exists Please Log in</h2> : ""}
+                                    {oldUser ? <h2 className="text-danger" >User Already Exists Please Log in</h2> : ""}
                                 </div>
                             </div>
                             <Form>
                                 <div className="form-group">
-                                    <label htmlFor="email">Email</label>
+                                    <label className="fw-bold" htmlFor="email">Email</label>
                                     <Field type="email" name="email" placeholder="Enter email" autoComplete="off" className={`mt-2 form-control ${props.touched.email && props.errors.email ? "is-invalid" : ""}`} />
                                     <ErrorMessage component="div" name="email" className="invalid-feedback" />
                                 </div>
 
                                 <div className="form-group">
-                                    <label htmlFor="password">Password</label>
+                                    <label className="fw-bold mt-3" htmlFor="password">Password</label>
                                     <Field type="password" name="password" placeholder="Enter password" autoComplete="off" className={`mt-2 form-control ${props.touched.password && props.errors.password ? "is-invalid" : ""}`} />
                                     <ErrorMessage component="div" name="password" className="invalid-feedback" />
                                 </div>
                                 <div className="form-group mt-3">
-                                    <label htmlFor="checkrole">Check only if you are a teacher</label>
+                                    <label className="fw-bold mt-1" htmlFor="checkrole">Check only if you are a teacher</label>
                                     <Field type="checkbox" name="radio"></Field>
                                 </div>
-                                <button type="submit" className="btn btn-primary btn-block mt-4">
+                                <button type="submit" className="btn btn-success btn-block mt-4">
                                     Submit
                                 </button>
                             </Form>
 
-                            <p>
-                                Already have an account <button onClick={goToLogin} >Log in</button>
+                            <p className="fw-bold mt-3">
+                                Already have an account <button className="btn btn-primary" onClick={goToLogin} >Log in</button>
                             </p>
                         </div>
                     )}
