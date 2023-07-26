@@ -58,7 +58,7 @@ const Login = (props) => {
             console.log("YESS");
         } else {
             setError(true);
-            console.log(error, "Caught")
+            console.log(error, "Caught");
         }
     };
 
