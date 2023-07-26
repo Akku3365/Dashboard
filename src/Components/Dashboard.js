@@ -1,16 +1,13 @@
 /** @format */
 
-// /** @format */
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 
 function Dashboard(props) {
+    // Destructuring the role prop directly
+    const { role } = props;
 
-    
-
-
-    console.log(props.role)
     const initialInput = {
         t: "",
         de: "",
@@ -23,7 +20,6 @@ function Dashboard(props) {
         return storedItems ? JSON.parse(storedItems) : [];
     });
     const [editTasks, setEditTasks] = useState(null);
-    const [editdTask, setEditdTask] = useState({ id: 0, t: "", de: "" });
 
     useEffect(() => {
         localStorage.setItem("Task", JSON.stringify(taskList));
@@ -57,37 +53,48 @@ function Dashboard(props) {
 
     const taskEditFunction = (val) => {
         setEditTasks(val);
-        setEditdTask(val);
         setTasks(val);
     };
 
     const backFunction = useNavigate();
 
     const handleback = () => {
-        backFunction("/");
+        // let temp_val = window.alert("Do you really want to logout");
+        // if(temp_val) {
+            localStorage.removeItem('user_d');
+            backFunction("/");
+        // }
     };
 
     return (
         <>
             <div className="container">
                 <div>
-                    <h1 className="text-primary text-center">Dashboard{props.role}</h1>
-                    <label htmlFor="task">Tasks</label>
-                    <input type="text" value={tasks.t} name="t" onChange={handOnchangeFn} placeholder="Enter tasks"></input>
-                    <label htmlFor="task">Description</label>
-                    <input type="text" value={tasks.de} name="de" onChange={handOnchangeFn} placeholder="Description"></input>
-                    {editTasks !== null ? (
-                        <button className="btn btn-dark" onClick={taskInputSubmit}>
-                            Update Task
-                        </button>
-                    ) : (
-                        <button className="btn btn-dark" onClick={taskInputSubmit}>
-                            Add Task
-                        </button>
-                    )}
+                    <h1 className="text-primary text-center">Dashboard</h1>
+                    {/* Conditional rendering based on props.role */}
+                    {role ? <h3 className="text-center">Welcome Teacher</h3> : <h3 className="text-center">Hello Student</h3>}
+                    <div className="mt-4">
+                        {role && (
+                            <>
+                                <label htmlFor="task">Tasks</label>
+                                <input type="text" value={tasks.t} name="t" onChange={handOnchangeFn} placeholder="Enter tasks" />
+                                <label htmlFor="task">Description</label>
+                                <input type="text" value={tasks.de} name="de" onChange={handOnchangeFn} placeholder="Description" />
+                                {editTasks !== null ? (
+                                    <button className="btn btn-dark" onClick={taskInputSubmit}>
+                                        Update Task
+                                    </button>
+                                ) : (
+                                    <button className="btn btn-success mt-2" onClick={taskInputSubmit}>
+                                        Add Task
+                                    </button>
+                                )}
+                            </>
+                        )}
+                    </div>
                     <br />
-                    <button className="mt-2" onClick={handleback}>
-                        Back to Home
+                    <button className="btn btn-primary mt-2" onClick={handleback}>
+                        Logout
                     </button>
                     <br />
                 </div>
@@ -102,12 +109,20 @@ function Dashboard(props) {
                                 <p>
                                     <span className="fs-4">Description:</span> {taskItem.de}
                                 </p>
-                                <span>
-                                    <button onClick={() => taskEditFunction(taskItem)}>Edit Task</button>
-                                </span>
-                                <span>
-                                    <button onClick={() => taskInputDelete(taskItem.id)}>Delete task</button>
-                                </span>
+                                {role && (
+                                    <span>
+                                        <button className="btn btn-warning" onClick={() => taskEditFunction(taskItem)}>
+                                            Edit Task
+                                        </button>
+                                    </span>
+                                )}
+                                {role && (
+                                    <span>
+                                        <button className="btn btn-danger" onClick={() => taskInputDelete(taskItem.id)}>
+                                            Delete task
+                                        </button>
+                                    </span>
+                                )}
                             </li>
                         ))}
                     </ol>

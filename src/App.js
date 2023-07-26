@@ -1,38 +1,39 @@
-import React, { createContext, useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+/** @format */
+
+import React, { useEffect, useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./Components/Login";
 import Signup from "./Components/Signup";
 import Dashboard from "./Components/Dashboard";
 
 function App() {
+    const [role, setRole] = useState(false);
 
-  const [role, setRole] = useState("");
+    useEffect(() => {
+        const db = JSON.parse(localStorage.getItem("user_d"));
+        if (db && db.radio === true) {
+            setRole(true);
+        } else {
+            setRole(false);
+        }
+    }, [role]);
+    // console.log(role);
 
-  useEffect(()=> {
-    const db = JSON.parse(localStorage.getItem('user_d'));
-   if(db) {
-    setRole(db.radio)
-   } else {
-    localStorage.clear();
-   }
-  },[])
+    return (
+        <>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Login role={role} setRole={setRole} />} />
+                    <Route path="/signup" element={<Signup />} />
+                    {/* Pass the role prop to the Dashboard component */}
+                    <Route path="/dash" element={<Dashboard role={role} setRole={setRole} />} />
+                </Routes>
+            </BrowserRouter>
 
-  return (
-    <>
-
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/signup" element={<Signup  role={role} setRole={setRole} />} />
-          <Route path="/dash" element={<Dashboard role={role} setRole={setRole} />} />
-        </Routes>
-      </BrowserRouter>
-
-      {/* <Signup />
+            {/* <Signup />
       <Login /> */}
-
-    </>
-  );
+        </>
+    );
 }
 
 export default App;
