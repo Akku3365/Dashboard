@@ -11,9 +11,11 @@ const SignupSchema = Yup.object().shape({
         .email("Kindly check you email")
 
         .required("Email field is required"),
-    password: Yup.string()
+         password: Yup.string()
 
-        .min(6, "Password must be 6 characters at minimum")
+
+        .required("Password is required")
+        .min(4, "Password must be 4 characters at minimum")
         .max(12, "Password must not be exeeded 12 character"),
 });
 
@@ -39,6 +41,7 @@ const Signup = () => {
     const [formData, setFormData] = useState(initialDB);
 
     const handleSignupSubmit = (val) => {
+        console.log(val)
         let exist = [...formData].find((v) => v.email === val.email);
         console.log(exist);
         if (exist) {

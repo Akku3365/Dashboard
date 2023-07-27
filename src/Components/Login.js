@@ -13,22 +13,14 @@ const LoginSchema = Yup.object().shape({
 
         // Required Field Validation
         .required("Email is required"),
-    password: Yup.string()
+         password: Yup.string()
 
-        //Minimum Character Validation and Required Field Validation
-        .min(3, "Password must be 3 characters at minimum")
-        .max(8, "Password must not be exeeded 8 characters"),
-    // .required("Password is required")
+    .required("Password is required")
 });
 
 const Login = (props) => {
-    console.log(props);
-
-    //    We got the role value as props after lunch we comntinue from here
-    //    I have to fix the bug of this page when a new user tryies to log in is should give error
 
     const { setRole } = props;
-
     const [error, setError] = useState(false);
 
     const DB = JSON.parse(localStorage.getItem("formDB")); // Storimg the localstorage data into DB so we can compare it after handlesubmit
@@ -49,11 +41,11 @@ const Login = (props) => {
             if (dd[0].radio === true) {
                 navigationFunck("/dash");
                 localStorage.setItem("user_d", JSON.stringify(user_d));
-                setRole("Teacher");
+                setRole(true);
             } else {
                 navigationFunck("/dash");
                 localStorage.setItem("user_d", JSON.stringify(user_d));
-                setRole("Student");
+                setRole(false);
             }
             console.log("YESS");
         } else {

@@ -3,9 +3,9 @@ import React from "react";
 const TaskList = ({ taskList, role, taskEditFunction, taskInputDelete, openModal }) => {
   return (
     <div>
-      <ol className="list-group">
+      <ol className="list-group" >
         {taskList.map((taskItem) => (
-          <li className="list-group-item" key={taskItem.id}>
+          <li className="list-group-item mt-2" style={{border: "2px solid lightskyblue", background: "floralwhite", borderRadius: "5px"}} key={taskItem.id}>
             <p>
               <span className="fs-4">Task:</span> {taskItem.t}
             </p>
@@ -14,7 +14,7 @@ const TaskList = ({ taskList, role, taskEditFunction, taskInputDelete, openModal
             </p>
             {taskItem.answer && (
               <p>
-                <span className="fs-4">Answer:</span> {taskItem.answer}
+                <span className="fs-4 text-primary">Answer:</span> {taskItem.answer}
               </p>
             )}
             {role && (
