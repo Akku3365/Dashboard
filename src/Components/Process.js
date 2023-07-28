@@ -3,12 +3,12 @@
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 
-function TaskList({ taskList, role, taskEditFunction, taskInputDelete, openModal }) {
+function Process({ taskList, role, taskEditFunction, taskInputDelete, openModal }) {
     return (
         <>
         <div style={{border: "2px solid black", width: "32%"}} >
             <ol className="list-group">
-            <h1 className="text-center">Task List</h1>
+            <h1 className="text-center">In Process</h1>
                 {taskList.map((taskItem, index) => (
                     <Draggable key={taskItem.id.toString()} draggableId={taskItem.id.toString()} index={index} isDragDisabled={!role}>
                         {(provided) => (
@@ -58,4 +58,4 @@ function TaskList({ taskList, role, taskEditFunction, taskInputDelete, openModal
     );
 }
 
-export default TaskList;
+export default Process;
