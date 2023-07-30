@@ -2,6 +2,7 @@ import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 
 function Completed({ taskList, role, taskEditFunction, taskInputDelete, openModal }) {
+    console.log(taskList)
     return (
         <>
             <div style={{ border: "2px solid black", width: "100%" }}>
@@ -10,12 +11,16 @@ function Completed({ taskList, role, taskEditFunction, taskInputDelete, openModa
                     {taskList.map((taskItem, index) => (
                         <Draggable key={taskItem.id.toString()} draggableId={taskItem.id.toString()} index={index} isDragDisabled={!role}>
                             {(provided) => (
+                                <div style={{border: "2px solid red"}}>
                                 <li className="list-group-item mt-2" style={{ border: "2px solid lightskyblue", background: "floralwhite", borderRadius: "5px" }} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                                     <p>
                                         <span className="fs-4">Task:</span> {taskItem.t}
                                     </p>
                                     <p>
                                         <span className="fs-4">Description:</span> {taskItem.de}
+                                    </p>
+                                    <p>
+                                        <span className="fs-4">Answer:</span> {taskItem.answer}
                                     </p>
                                     {taskItem.status && (
                                         <p>
@@ -47,6 +52,7 @@ function Completed({ taskList, role, taskEditFunction, taskInputDelete, openModa
                                         </button>
                                     )}
                                 </li>
+                                </div>
                             )}
                         </Draggable>
                     ))}

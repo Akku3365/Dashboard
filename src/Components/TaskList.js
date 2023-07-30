@@ -2,6 +2,7 @@ import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 
 function TaskList({ taskList, role, taskEditFunction, taskInputDelete, openModal }) {
+    console.log(taskList)
     return (
         <>
             <div style={{ border: "2px solid black", width: "100%" }}>
@@ -16,6 +17,9 @@ function TaskList({ taskList, role, taskEditFunction, taskInputDelete, openModal
                                     </p>
                                     <p>
                                         <span className="fs-4">Description:</span> {taskItem.de}
+                                    </p>
+                                    <p>
+                                        <span className="fs-4">Answer:</span> {taskItem.answer}
                                     </p>
                                     {taskItem.status && (
                                         <p>
